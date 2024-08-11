@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First JavaScript</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script>
+        function onOver(elemento){
+            elemento.style.backgroundColor = "rgb(28, 144, 221)";
+            elemento.style.borderColor = "rgb(28, 144, 221)";
+        }
+
+        function onOut(elemento){
+            elemento.style.backgroundColor = "gray";
+            elemento.style.borderColor = "gray";
+        }
+
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        var pauseTimeout;
+        
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('meuVideo', {
+                height: '315',
+                width: '560',
+                videoId: 'oY9qKzEvIaM',
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            var iframe = document.getElementById('meuVideo');
+
+            iframe.addEventListener('mouseover', function() {
+                clearTimeout(pauseTimeout); // Limpa o timeout se o mouse estiver sobre o vídeo
+                player.playVideo();
+            });
+
+            iframe.addEventListener('mouseout', function() {
+                // Define um timeout para pausar o vídeo após 1 minuto
+                pauseTimeout = setTimeout(function() {
+                    player.pauseVideo();
+                }, 60000); // 60000 milissegundos = 1 minuto
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Gutuber</h1>
+
+    <iframe id="meuVideo" width="560" height="315" src="https://www.youtube.com/embed/oY9qKzEvIaM?enablejsapi=1" 
+    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen></iframe>
+    <p id="iphone14"><b>Vídeo Filmado por Iphone 14 Pro - Modo Cinema-</b></p>
+
+    <form method="get" action="https://www.youtube.com/results">
+
+        <input id="pesv" type="text" name="search_query" placeholder="Pesquise Qualquer Vídeo">
+
+        <input id="enviar" type="submit" onmouseover="onOver(this)" onmouseout="onOut(this)">
+    </form>
+</body>
+</html>
